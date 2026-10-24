@@ -28,7 +28,7 @@ struct AlejaWidgetProvider: TimelineProvider {
         let calendar = Calendar.current
         let hours = [6, 12, 18]
         let candidates = hours.compactMap { hour -> Date? in
-            var components = calendar.dateComponents([.year, .month, .day], from: date)
+            var components = DateComponents()
             components.hour = hour
             components.minute = 0
             components.second = 0
