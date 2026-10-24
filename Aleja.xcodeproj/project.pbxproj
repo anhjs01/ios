@@ -14,6 +14,9 @@
 		A10000000000000000000006 /* AlejaWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* AlejaWidget.swift */; };
 		A10000000000000000000007 /* DailyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* DailyCard.swift */; };
 		A10000000000000000000008 /* AlejaWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* AlejaWidget.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A10000000000000000000009 /* CalendarDayContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000013 /* CalendarDayContent.swift */; };
+		A10000000000000000000010 /* calendario-original.json in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000014 /* calendario-original.json */; };
+		A10000000000000000000011 /* catalogo-canciones.json in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000015 /* catalogo-canciones.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,6 +26,10 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		A50000000000000000000001 /* Embed App Extensions */ = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 13; files = (A10000000000000000000008 /* AlejaWidget.appex in Embed App Extensions */, ); name = "Embed App Extensions"; runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A60000000000000000000003 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000010 /* calendario-original.json in Resources */, A10000000000000000000011 /* catalogo-canciones.json in Resources */, ); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A20000000000000000000013 /* CalendarDayContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayContent.swift; sourceTree = "<group>"; };
