@@ -44,8 +44,11 @@ for index, day in enumerate(days, start=1):
     missing = required - day.keys()
     if missing:
         fail(f"calendar item {index} missing keys: {sorted(missing)}")
+    if not isinstance(day["dia"], int) or isinstance(day["dia"], bool) or day["dia"] != index:
+        fail(f"calendar item {index}: dia must equal its one-based position")
     try:
-        seen_dates.append(date.fromisoformat(day["fecha"]))
+        parsed_date = date.fromisoformat(day["fecha"])
+        seen_dates.append(parsed_date)
     except Exception:
         fail(f"calendar item {index} has invalid date {day.get('fecha')!r}")
     if not isinstance(day["poema"], list) or not day["poema"]:
@@ -99,6 +102,8 @@ for index, song in enumerate(songs, start=1):
     for field in ("id", "category", "title", "artist", "youtubeID"):
         if field not in song:
             fail(f"song {index} missing field {field}")
+    if not isinstance(song["id"], str) or not song["id"].strip():
+        fail(f"song {index} has empty internal ID")
     if not isinstance(song["title"], str) or not song["title"].strip() or not isinstance(song["artist"], str) or not song["artist"].strip():
         fail(f"song {index} has empty title or artist")
     if song["category"] not in expected_categories:
