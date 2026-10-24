@@ -14,6 +14,8 @@ struct MusicCatalogView: View {
             let matchesSearch = query.isEmpty
                 || song.title.localizedCaseInsensitiveContains(query)
                 || song.artist.localizedCaseInsensitiveContains(query)
+                || song.categoryTitle.localizedCaseInsensitiveContains(query)
+                || (song.note?.localizedCaseInsensitiveContains(query) ?? false)
             return matchesCategory && matchesSearch
         }
     }
@@ -46,7 +48,7 @@ struct MusicCatalogView: View {
                     ContentUnavailableView(
                         "No encontramos canciones",
                         systemImage: "music.note.list",
-                        description: Text("Prueba con otro título, artista o categoría.")
+                        description: Text("Prueba con otro título, artista, categoría o palabra clave.")
                     )
                 } else {
                     ForEach(filteredSongs) { song in
@@ -96,7 +98,7 @@ struct MusicCatalogView: View {
             }
         }
         .listStyle(.insetGrouped)
-        .searchable(text: $searchText, prompt: "Buscar canción o artista")
+        .searchable(text: $searchText, prompt: "Buscar canción, artista o categoría")
         .navigationTitle("Música")
         .navigationBarTitleDisplayMode(.inline)
     }
