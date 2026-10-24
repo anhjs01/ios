@@ -4,6 +4,7 @@ struct ContentView: View {
     @EnvironmentObject private var cardStore: CardStore
     @Environment(\.scenePhase) private var scenePhase
     @State private var selectedDate = Calendar.current.startOfDay(for: .now)
+    @State private var lastObservedLocalDayKey = DailyCard.key(for: .now)
     @State private var navigationPath = NavigationPath()
     @StateObject private var reminderManager = ReminderManager()
     @State private var showReminderAlert = false
@@ -65,9 +66,24 @@ struct ContentView: View {
             .onChange(of: scenePhase) { _, phase in
                 if phase == .active {
                     reminderManager.refreshStatus()
+                    refreshLocalDayIfNeeded()
                 }
             }
         }
+    }
+
+    private func refreshLocalDayIfNeeded() {
+        let today = Calendar.current.startOfDay(for: .now)
+        let todayKey = DailyCard.key(for: today)
+        guard todayKey != lastObservedLocalDayKey else { return }
+
+        // If the user was viewing the previous current day, follow the local
+        // calendar rollover. Preserve intentional browsing of older/future dates.
+        if DailyCard.key(for: selectedDate) == lastObservedLocalDayKey {
+            selectedDate = today
+        }
+        lastObservedLocalDayKey = todayKey
+        cardStore.ensureCards(for: today)
     }
 
     private func handleDeepLink(_ url: URL) {
