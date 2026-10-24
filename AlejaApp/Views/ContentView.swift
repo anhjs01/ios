@@ -154,7 +154,7 @@ struct ContentView: View {
                 }
                 Spacer()
                 Image(systemName: reminderManager.isEnabled ? "checkmark.circle.fill" : "chevron.right")
-                    .foregroundStyle(reminderManager.isEnabled ? .green : .tertiary)
+                    .foregroundStyle(reminderManager.isEnabled ? Color.green : Color.gray)
             }
             .padding(14)
             .background(.white.opacity(0.9), in: RoundedRectangle(cornerRadius: 20))
