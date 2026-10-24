@@ -221,13 +221,19 @@ struct ContentView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(16)
             .background(.white.opacity(0.9), in: RoundedRectangle(cornerRadius: 20))
+        } else {
+            VStack(alignment: .leading, spacing: 6) {
+                Label("Día fuera del calendario original", systemImage: "calendar.badge.plus")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Color(red: 0.08, green: 0.20, blue: 0.34))
+                Text("Puedes crear y guardar tus propias carticas para esta fecha. El tema y la canción originales solo están disponibles dentro del año del calendario.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(16)
+            .background(.white.opacity(0.9), in: RoundedRectangle(cornerRadius: 20))
         }
-    }
-
-    private var calendarDateRange: ClosedRange<Date> {
-        let start = cardStore.calendarDays.first?.date ?? Calendar.current.startOfDay(for: .now)
-        let end = cardStore.calendarDays.last?.date ?? start
-        return start...end
     }
 
     private var calendarDateRangeLabel: String {
@@ -238,7 +244,7 @@ struct ContentView: View {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "es_CO")
         formatter.dateFormat = "d 'de' MMMM 'de' yyyy"
-        return "Puedes explorar desde el \(formatter.string(from: first)) hasta el \(formatter.string(from: last))."
+        return "Mensajes originales disponibles del \(formatter.string(from: first)) al \(formatter.string(from: last))."
     }
 
     private var datePicker: some View {
@@ -249,8 +255,7 @@ struct ContentView: View {
                     .foregroundStyle(Color(red: 0.10, green: 0.23, blue: 0.36))
                 Spacer()
                 Button {
-                    let today = Calendar.current.startOfDay(for: .now)
-                    selectedDate = min(max(today, calendarDateRange.lowerBound), calendarDateRange.upperBound)
+                    selectedDate = Calendar.current.startOfDay(for: .now)
                 } label: {
                     Label("Ir a hoy", systemImage: "calendar")
                         .font(.caption.weight(.semibold))
@@ -258,7 +263,7 @@ struct ContentView: View {
                 .buttonStyle(.bordered)
                 .tint(Color(red: 0.12, green: 0.47, blue: 0.75))
             }
-            DatePicker("Elegir día", selection: $selectedDate, in: calendarDateRange, displayedComponents: .date)
+            DatePicker("Elegir día", selection: $selectedDate, displayedComponents: .date)
                 .datePickerStyle(.graphical)
                 .tint(Color(red: 0.13, green: 0.53, blue: 0.82))
                 .padding(12)
