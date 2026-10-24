@@ -10,21 +10,29 @@ final class ReminderManager: ObservableObject {
     private let center = UNUserNotificationCenter.current()
 
     init() {
-        center.getPendingNotificationRequests { [weak self] requests in
-            let ids = Set(requests.map(\.identifier))
-            let enabled = ["aleja.morning", "aleja.midday", "aleja.evening"].allSatisfy(ids.contains)
-            Task { @MainActor [weak self] in
-                self?.isEnabled = enabled
-            }
-        }
+        refreshStatus()
     }
 
     func refreshStatus() {
-        center.getPendingNotificationRequests { [weak self] requests in
-            let ids = Set(requests.map(\.identifier))
-            let enabled = ["aleja.morning", "aleja.midday", "aleja.evening"].allSatisfy(ids.contains)
-            Task { @MainActor [weak self] in
-                self?.isEnabled = enabled
+        center.getNotificationSettings { [weak self] settings in
+            let authorizationAllowsNotifications =
+                settings.authorizationStatus == .authorized ||
+                settings.authorizationStatus == .provisional
+
+            self?.center.getPendingNotificationRequests { [weak self] requests in
+                let ids = Set(requests.map(\.identifier))
+                let hasAllReminders = [
+                    "aleja.morning", "aleja.midday", "aleja.evening"
+                ].allSatisfy(ids.contains)
+
+                Task { @MainActor [weak self] in
+                    self?.isEnabled = authorizationAllowsNotifications && hasAllReminders
+                    if !authorizationAllowsNotifications {
+                        self?.statusMessage = "Las notificaciones no están autorizadas. Revisa Ajustes del iPhone."
+                    } else if !hasAllReminders {
+                        self?.statusMessage = nil
+                    }
+                }
             }
         }
     }
