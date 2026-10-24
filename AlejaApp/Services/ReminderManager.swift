@@ -51,8 +51,11 @@ final class ReminderManager: ObservableObject {
             isEnabled = true
             statusMessage = "Recordatorios diarios activados para las 06:00, 12:00 y 18:00."
         } catch {
+            center.removePendingNotificationRequests(withIdentifiers: [
+                "aleja.morning", "aleja.midday", "aleja.evening"
+            ])
             isEnabled = false
-            statusMessage = "No fue posible configurar los recordatorios. Inténtalo de nuevo."
+            statusMessage = "No fue posible configurar todos los recordatorios. Se limpiaron las solicitudes parciales; inténtalo de nuevo."
         }
     }
 
