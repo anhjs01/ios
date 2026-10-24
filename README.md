@@ -37,7 +37,7 @@ La app y el widget usan el grupo compartido `group.com.anhjs01.aleja`. Para que 
 
 ## Compilar y probar
 
-El workflow `.github/workflows/ios-build.yml` valida el contenido del calendario y del catálogo, y compila el proyecto en un runner macOS con Xcode. La última compilación completada pasó correctamente; los cambios nuevos deben terminar su propia ejecución de CI. La compilación real y la instalación en un iPhone deben verificarse con Xcode. Para firmar e instalar en un dispositivo, también hay que configurar el equipo de desarrollo y los identificadores de firma.
+El workflow `.github/workflows/ios-build.yml` está configurado para validar el contenido del calendario y del catálogo, y compilar el proyecto en un runner macOS con Xcode. No se ha podido confirmar desde esta revisión que el último commit haya completado esa ejecución de CI; consulta el estado actualizado en https://github.com/anhjs01/ios/actions. Por tanto, no debe darse por verificada la compilación actual. La instalación en un iPhone también requiere una prueba aparte con Xcode, firma y configuración del equipo de desarrollo.
 
 ## Próximos pasos
 
