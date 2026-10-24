@@ -17,6 +17,7 @@ final class CardStore: ObservableObject {
         loadBundledContent()
         loadSavedCards()
         ensureCards(for: .now)
+        syncWidgetMessages()
     }
 
     func cards(for date: Date) -> [DailyCard] {
@@ -122,11 +123,22 @@ final class CardStore: ObservableObject {
         guard let data = try? encoder.encode(cards) else { return }
         UserDefaults.standard.set(data, forKey: storageKey)
 
-        if let sharedDefaults = UserDefaults(suiteName: appGroup) {
-            for card in cards {
+        syncWidgetMessages()
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    private func syncWidgetMessages() {
+        guard let sharedDefaults = UserDefaults(suiteName: appGroup) else { return }
+
+        // Seed all bundled dates so the widget can show tomorrow's message even
+        // if the app hasn't been opened that day. Saved edits take precedence.
+        for day in calendarDays {
+            for card in makeCards(for: day.date) {
                 sharedDefaults.set(card.message, forKey: "widget.message.\(card.id)")
             }
         }
-        WidgetCenter.shared.reloadAllTimelines()
+        for card in cards {
+            sharedDefaults.set(card.message, forKey: "widget.message.\(card.id)")
+        }
     }
 }
