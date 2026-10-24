@@ -8,9 +8,9 @@ struct MusicCatalogView: View {
     private let categories = ["Todas", "Amor", "Filosófica", "Hot", "Ambiente"]
 
     private var filteredSongs: [CatalogSong] {
-        cardStore.songs.filter { song in
+        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        return cardStore.songs.filter { song in
             let matchesCategory = selectedCategory == "Todas" || song.categoryTitle == selectedCategory
-            let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
             let matchesSearch = query.isEmpty
                 || song.title.localizedCaseInsensitiveContains(query)
                 || song.artist.localizedCaseInsensitiveContains(query)
@@ -66,15 +66,24 @@ struct MusicCatalogView: View {
                                 Text(song.categoryTitle)
                                     .font(.caption2)
                                     .foregroundStyle(.blue)
+                                if song.youtubeID == nil || song.youtubeID?.isEmpty == true {
+                                    Text("Abrirá una búsqueda en YouTube")
+                                        .font(.caption2)
+                                        .foregroundStyle(.secondary)
+                                }
                             }
                             Spacer(minLength: 4)
                             if let url = song.youtubeURL {
                                 Link(destination: url) {
-                                    Image(systemName: "play.circle.fill")
+                                    Image(systemName: song.youtubeID?.isEmpty == false ? "play.circle.fill" : "magnifyingglass")
                                         .font(.title2)
                                         .foregroundStyle(.blue)
                                 }
-                                .accessibilityLabel("Abrir \(song.title) en YouTube")
+                                .accessibilityLabel(
+                                    song.youtubeID?.isEmpty == false
+                                        ? "Abrir \(song.title) en YouTube"
+                                        : "Buscar \(song.title) de \(song.artist) en YouTube"
+                                )
                             } else {
                                 Image(systemName: "link.slash")
                                     .foregroundStyle(.tertiary)
