@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Validate the native app's bundled source data without external dependencies."""
 import json
+import plistlib
 from datetime import date
 from pathlib import Path
 import sys
@@ -134,6 +135,42 @@ for index, day in enumerate(days, start=1):
     if catalog_song["title"] != day["cancionTitulo"] or catalog_song["artist"] != day["cancionArtista"]:
         fail(f"calendar item {index}: song title/artist do not match catalog entry {youtube_id}")
 
+# Keep app/widget sharing and deep-link configuration aligned; otherwise edits
+# may save successfully but never reach the widget or open the selected card.
+app_entitlements_path = ROOT / "AlejaApp/AlejaApp.entitlements"
+widget_entitlements_path = ROOT / "AlejaWidget/AlejaWidget.entitlements"
+info_path = ROOT / "AlejaApp/Info.plist"
+try:
+    with app_entitlements_path.open("rb") as stream:
+        app_entitlements = plistlib.load(stream)
+    with widget_entitlements_path.open("rb") as stream:
+        widget_entitlements = plistlib.load(stream)
+    with info_path.open("rb") as stream:
+        app_info = plistlib.load(stream)
+except Exception as exc:
+    fail(f"cannot parse iOS configuration plist: {exc}")
+
+expected_app_group = "group.com.anhjs01.aleja"
+app_groups = app_entitlements.get("com.apple.security.application-groups", [])
+widget_groups = widget_entitlements.get("com.apple.security.application-groups", [])
+if expected_app_group not in app_groups or expected_app_group not in widget_groups:
+    fail("app and widget must both declare the shared App Group")
+
+url_schemes = [
+    scheme
+    for url_type in app_info.get("CFBundleURLTypes", [])
+    for scheme in url_type.get("CFBundleURLSchemes", [])
+]
+if "aleja" not in url_schemes:
+    fail("Info.plist must register the aleja deep-link URL scheme")
+
+project_path = ROOT / "Aleja.xcodeproj/project.pbxproj"
+project_text = project_path.read_text(encoding="utf-8")
+for bundle_id in ("com.anhjs01.aleja", "com.anhjs01.aleja.widget"):
+    if bundle_id not in project_text:
+        fail(f"Xcode project is missing expected bundle identifier {bundle_id}")
+
+print("PASS: shared App Group, app deep-link scheme, and app/widget bundle IDs")
 print(f"PASS: {len(days)} consecutive calendar days, {seen_dates[0]} through {seen_dates[-1]}")
 print(f"PASS: {len(songs)} songs with categories {actual_categories}")
 print(f"INFO: {len(missing_links)} songs lack source YouTube IDs; the app will offer search links instead.")
