@@ -5,6 +5,8 @@ import WidgetKit
 @MainActor
 final class CardStore: ObservableObject {
     @Published private(set) var cards: [DailyCard] = []
+    @Published private(set) var calendarDays: [CalendarDayContent] = []
+    @Published private(set) var songs: [CatalogSong] = []
 
     private let storageKey = "aleja.dailyCards.v1"
     private let appGroup = "group.com.anhjs01.aleja"
@@ -12,14 +14,16 @@ final class CardStore: ObservableObject {
     private let decoder = JSONDecoder()
 
     init() {
-        load()
+        loadBundledContent()
+        loadSavedCards()
         ensureCards(for: .now)
     }
 
     func cards(for date: Date) -> [DailyCard] {
         let key = DailyCard.key(for: date)
         let saved = cards.filter { $0.dayKey == key }.sorted { $0.slot.rawValue < $1.slot.rawValue }
-        return saved.isEmpty ? DailyCard.starterCards(for: date) : saved
+        if !saved.isEmpty { return saved }
+        return makeCards(for: date)
     }
 
     func update(_ card: DailyCard) {
@@ -34,13 +38,51 @@ final class CardStore: ObservableObject {
     func ensureCards(for date: Date) {
         let key = DailyCard.key(for: date)
         let existingSlots = Set(cards.filter { $0.dayKey == key }.map(\.slot))
-        let missing = DailyCard.starterCards(for: date).filter { !existingSlots.contains($0.slot) }
+        let missing = makeCards(for: date).filter { !existingSlots.contains($0.slot) }
         guard !missing.isEmpty else { return }
         cards.append(contentsOf: missing)
         save()
     }
 
-    private func load() {
+    func calendarDay(for date: Date) -> CalendarDayContent? {
+        let key = DailyCard.key(for: date)
+        return calendarDays.first { $0.fecha == key }
+    }
+
+    private func makeCards(for date: Date) -> [DailyCard] {
+        let key = DailyCard.key(for: date)
+        guard let source = calendarDays.first(where: { $0.fecha == key }) else {
+            return DailyCard.starterCards(for: date)
+        }
+
+        let songURL = source.cancionUrl.flatMap(URL.init(string:))
+            ?? source.youtubeId.flatMap { URL(string: "https://www.youtube.com/watch?v=\($0)") }
+
+        return [
+            DailyCard(dayKey: key, slot: .morning, message: source.buenosDias,
+                      songTitle: source.cancionTitulo, songArtist: source.cancionArtista, songURL: songURL),
+            DailyCard(dayKey: key, slot: .midday, message: source.middayMessage,
+                      songTitle: source.cancionTitulo, songArtist: source.cancionArtista, songURL: songURL),
+            DailyCard(dayKey: key, slot: .evening, message: source.buenasNoches,
+                      songTitle: source.cancionTitulo, songArtist: source.cancionArtista, songURL: songURL)
+        ]
+    }
+
+    private func loadBundledContent() {
+        if let url = Bundle.main.url(forResource: "calendario-original", withExtension: "json"),
+           let data = try? Data(contentsOf: url),
+           let decoded = try? decoder.decode([CalendarDayContent].self, from: data) {
+            calendarDays = decoded.sorted { $0.fecha < $1.fecha }
+        }
+
+        if let url = Bundle.main.url(forResource: "catalogo-canciones", withExtension: "json"),
+           let data = try? Data(contentsOf: url),
+           let decoded = try? decoder.decode([CatalogSong].self, from: data) {
+            songs = decoded
+        }
+    }
+
+    private func loadSavedCards() {
         guard let data = UserDefaults.standard.data(forKey: storageKey),
               let decoded = try? decoder.decode([DailyCard].self, from: data) else {
             cards = []
