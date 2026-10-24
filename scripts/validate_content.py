@@ -24,6 +24,21 @@ if len(days) != 365:
 required = {"dia", "fecha", "fechaTexto", "categoria", "icono", "tono", "color",
             "buenosDias", "poema", "detalle", "buenasNoches", "cancionTitulo",
             "cancionArtista", "youtubeId", "cancionUrl"}
+allowed_tones = {"amor", "filosofica", "hot", "ambiente"}
+def valid_youtube_id(value):
+    return isinstance(value, str) and len(value) == 11 and all(
+        char in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" for char in value
+    )
+
+def valid_hex_color(value):
+    if not isinstance(value, str) or len(value) != 7 or not value.startswith("#"):
+        return False
+    try:
+        int(value[1:], 16)
+        return True
+    except ValueError:
+        return False
+
 seen_dates = []
 for index, day in enumerate(days, start=1):
     missing = required - day.keys()
@@ -33,17 +48,26 @@ for index, day in enumerate(days, start=1):
         seen_dates.append(date.fromisoformat(day["fecha"]))
     except Exception:
         fail(f"calendar item {index} has invalid date {day.get('fecha')!r}")
-    if not isinstance(day["poema"], list):
-        fail(f"calendar item {index}: poema must be a list")
-    for field in ("buenosDias", "detalle", "buenasNoches", "cancionTitulo", "cancionArtista"):
+    if not isinstance(day["poema"], list) or not day["poema"]:
+        fail(f"calendar item {index}: poema must be a non-empty list")
+    if any(not isinstance(line, str) or not line.strip() for line in day["poema"]):
+        fail(f"calendar item {index}: poema contains an empty paragraph")
+    for field in ("fechaTexto", "categoria", "icono", "tono", "buenosDias",
+                  "detalle", "buenasNoches", "cancionTitulo", "cancionArtista"):
         if not isinstance(day[field], str) or not day[field].strip():
             fail(f"calendar item {index}: {field} is empty")
+    if day["tono"] not in allowed_tones:
+        fail(f"calendar item {index}: unsupported tone {day['tono']!r}")
+    color = day["color"]
+    if not isinstance(color, dict) or any(
+        not valid_hex_color(color.get(field)) for field in ("principal", "suave", "oscuro")
+    ):
+        fail(f"calendar item {index}: expected valid principal/suave/oscuro hex colors")
     youtube_id = day["youtubeId"]
     expected_url = f"https://www.youtube.com/watch?v={youtube_id}" if youtube_id else None
     if day["cancionUrl"] != expected_url:
         fail(f"calendar item {index}: song URL does not match YouTube ID")
-    if youtube_id and (not isinstance(youtube_id, str) or len(youtube_id) != 11
-                       or any(char not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" for char in youtube_id)):
+    if not valid_youtube_id(youtube_id):
         fail(f"calendar item {index}: malformed YouTube ID {youtube_id!r}")
 if len(set(seen_dates)) != len(seen_dates):
     fail("calendar contains duplicate dates")
@@ -75,8 +99,12 @@ for index, song in enumerate(songs, start=1):
     for field in ("id", "category", "title", "artist", "youtubeID"):
         if field not in song:
             fail(f"song {index} missing field {field}")
-    if not song["title"].strip() or not song["artist"].strip():
+    if not isinstance(song["title"], str) or not song["title"].strip() or not isinstance(song["artist"], str) or not song["artist"].strip():
         fail(f"song {index} has empty title or artist")
+    if song["category"] not in expected_categories:
+        fail(f"song {index} has unsupported category {song['category']!r}")
+    if song["youtubeID"] and not valid_youtube_id(song["youtubeID"]):
+        fail(f"song {index} has malformed YouTube ID {song['youtubeID']!r}")
     actual_categories[song["category"]] = actual_categories.get(song["category"], 0) + 1
 if actual_categories != expected_categories:
     fail(f"unexpected category counts: {actual_categories}")
