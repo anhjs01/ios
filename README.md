@@ -12,6 +12,7 @@ Aplicación personal para Aleja, desarrollada con SwiftUI y WidgetKit. Este repo
 - Catálogo musical original importado como datos: 360 canciones, en cuatro categorías.
 - Calendario original importado como datos: 78 días consecutivos, del 16 de octubre de 2026 al 1 de enero de 2027.
 - La música solo se abre cuando se pulsa un control; no hay reproducción automática.
+- Recordatorios locales opcionales a las 06:00, 12:00 y 18:00, activados solo después de tocar el botón y conceder permiso.
 - Flujo de compilación automatizado para intentar compilar en un runner de macOS con Xcode.
 
 ## Fuentes y contenido
@@ -42,5 +43,5 @@ El workflow `.github/workflows/ios-build.yml` intenta compilar el proyecto en un
 1. Revisar el resultado de la compilación automatizada y corregir cualquier error.
 2. Ampliar el calendario más allá de los 78 días fuente sin duplicar ni inventar mensajes.
 3. Revisar los enlaces musicales pendientes y decidir una solución de audio compatible con iOS.
-4. Añadir ajustes para notificaciones locales, solicitando permiso explícito.
-5. Probar el widget, los enlaces profundos, el guardado y el audio en un iPhone real.
+4. Revisar el resultado de compilación de los últimos cambios de recordatorios y corregir lo que aparezca.
+5. Probar el widget, los enlaces profundos, los permisos de notificaciones, el guardado y los enlaces musicales en un iPhone real.
