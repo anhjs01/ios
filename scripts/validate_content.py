@@ -19,8 +19,8 @@ try:
 except Exception as exc:
     fail(f"cannot parse bundled JSON: {exc}")
 
-if len(days) != 78:
-    fail(f"expected 78 source calendar days, got {len(days)}")
+if len(days) != 365:
+    fail(f"expected 365 merged calendar days, got {len(days)}")
 required = {"dia", "fecha", "fechaTexto", "categoria", "icono", "tono", "color",
             "buenosDias", "poema", "detalle", "buenasNoches", "cancionTitulo",
             "cancionArtista", "youtubeId", "cancionUrl"}
@@ -40,8 +40,12 @@ for index, day in enumerate(days, start=1):
             fail(f"calendar item {index}: {field} is empty")
 if len(set(seen_dates)) != len(seen_dates):
     fail("calendar contains duplicate dates")
+if [day["dia"] for day in days] != list(range(1, 366)):
+    fail("calendar day numbers must run from 1 to 365")
 if seen_dates != sorted(seen_dates):
     fail("calendar dates are not sorted")
+if seen_dates[0].isoformat() != "2026-10-16" or seen_dates[-1].isoformat() != "2027-10-15":
+    fail(f"unexpected calendar range: {seen_dates[0]} through {seen_dates[-1]}")
 for previous, current in zip(seen_dates, seen_dates[1:]):
     if (current - previous).days != 1:
         fail(f"calendar date gap: {previous} -> {current}")
