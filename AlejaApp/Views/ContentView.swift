@@ -40,6 +40,7 @@ struct ContentView: View {
                                     CardRow(card: card)
                                 }
                                 .buttonStyle(.plain)
+                                .accessibilityHint("Abre la cartica para leerla, editar el mensaje y consultar la canción.")
                             }
                         }
                     }
