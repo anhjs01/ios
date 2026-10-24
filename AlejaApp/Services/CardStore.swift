@@ -55,8 +55,19 @@ final class CardStore: ObservableObject {
             return DailyCard.starterCards(for: date)
         }
 
-        let songURL = source.cancionUrl.flatMap(URL.init(string:))
-            ?? source.youtubeId.flatMap { URL(string: "https://www.youtube.com/watch?v=\($0)") }
+        let songURL: URL? = {
+            if let url = source.cancionUrl.flatMap(URL.init(string:)) {
+                return url
+            }
+            if let id = source.youtubeId, !id.isEmpty {
+                return URL(string: "https://www.youtube.com/watch?v=\(id)")
+            }
+            var components = URLComponents(string: "https://www.youtube.com/results")
+            components?.queryItems = [
+                URLQueryItem(name: "search_query", value: "\(source.cancionTitulo) \(source.cancionArtista)")
+            ]
+            return components?.url
+        }()
 
         return [
             DailyCard(dayKey: key, slot: .morning, message: source.buenosDias,
