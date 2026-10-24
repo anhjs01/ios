@@ -6,12 +6,13 @@ Aplicación personal para Aleja, desarrollada con SwiftUI y WidgetKit. Este repo
 
 - Proyecto de Xcode con una app SwiftUI y una extensión WidgetKit.
 - Tres carticas por fecha, previstas para las 06:00, 12:00 y 18:00 (hora local del iPhone).
-- Calendario para consultar días anteriores y futuros.
-- Edición y almacenamiento local de los mensajes.
+- Calendario para consultar días anteriores y futuros, también fuera del año de contenido original.
+- Edición y almacenamiento local de los mensajes; las fechas fuera del calendario original usan carticas personalizables sin canción ni tema originales.
 - Widget de inicio y widget rectangular de pantalla bloqueada, con fragmento de texto y enlace profundo que abre la fecha y la cartica exactas mostradas.
 - Catálogo musical original importado como datos: 360 canciones, en cuatro categorías.
+- Búsqueda de canciones por título, artista, categoría y palabras clave disponibles en las notas.
 - Calendario anual de 365 días consecutivos, del 16 de octubre de 2026 al 15 de octubre de 2027.
-- La música solo se abre cuando se pulsa un control; no hay reproducción automática.
+- La música solo se abre cuando se pulsa un control; no hay reproducción automática. Las entradas sin ID de YouTube muestran una búsqueda, no un enlace directo inventado.
 - Recordatorios locales opcionales a las 06:00, 12:00 y 18:00, activados solo después de tocar el botón y conceder permiso; el estado se vuelve a consultar al regresar a la app.
 - Flujo de compilación automatizado para intentar compilar en un runner de macOS con Xcode.
 
@@ -36,7 +37,7 @@ La app y el widget usan el grupo compartido `group.com.anhjs01.aleja`. Para que 
 
 ## Compilar y probar
 
-El workflow `.github/workflows/ios-build.yml` valida el contenido del calendario y del catálogo, y compila el proyecto en un runner macOS con Xcode. La última compilación de CI pasó correctamente. La compilación real y la instalación en un iPhone deben verificarse con Xcode. Para firmar e instalar en un dispositivo, también hay que configurar el equipo de desarrollo y los identificadores de firma.
+El workflow `.github/workflows/ios-build.yml` valida el contenido del calendario y del catálogo, y compila el proyecto en un runner macOS con Xcode. La última compilación completada pasó correctamente; los cambios nuevos deben terminar su propia ejecución de CI. La compilación real y la instalación en un iPhone deben verificarse con Xcode. Para firmar e instalar en un dispositivo, también hay que configurar el equipo de desarrollo y los identificadores de firma.
 
 ## Próximos pasos
 
