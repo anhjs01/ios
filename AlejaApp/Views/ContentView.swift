@@ -168,7 +168,7 @@ struct ContentView: View {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 8) {
                     Text(theme.icono).font(.title2)
-                    Text("El detalle de hoy")
+                    Text("El detalle de este día")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(.secondary)
                 }
