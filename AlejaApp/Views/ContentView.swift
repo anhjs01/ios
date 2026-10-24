@@ -172,9 +172,17 @@ struct ContentView: View {
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(.secondary)
                 }
-                Text(theme.categoria)
-                    .font(.title3.bold())
-                    .foregroundStyle(Color(red: 0.08, green: 0.20, blue: 0.34))
+                HStack(alignment: .firstTextBaseline) {
+                    Text(theme.categoria)
+                        .font(.title3.bold())
+                        .foregroundStyle(Color(red: 0.08, green: 0.20, blue: 0.34))
+                    Spacer(minLength: 8)
+                    Text("Día \(theme.dia) de 365")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Color(red: 0.12, green: 0.47, blue: 0.75))
+                }
+                ProgressView(value: Double(theme.dia), total: 365)
+                    .tint(Color(red: 0.12, green: 0.47, blue: 0.75))
                 Text(theme.fechaTexto)
                     .font(.caption)
                     .foregroundStyle(.secondary)
