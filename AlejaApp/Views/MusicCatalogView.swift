@@ -68,6 +68,13 @@ struct MusicCatalogView: View {
                                 Text(song.categoryTitle)
                                     .font(.caption2)
                                     .foregroundStyle(.blue)
+                                if let note = song.note?.trimmingCharacters(in: .whitespacesAndNewlines),
+                                   !note.isEmpty {
+                                    Text(note)
+                                        .font(.caption2)
+                                        .foregroundStyle(.secondary)
+                                        .lineLimit(2)
+                                }
                                 if song.youtubeID == nil || song.youtubeID?.isEmpty == true {
                                     Text("Abrirá una búsqueda en YouTube")
                                         .font(.caption2)
