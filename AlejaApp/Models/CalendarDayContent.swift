@@ -45,8 +45,12 @@ struct CatalogSong: Codable, Identifiable, Hashable {
     let note: String?
 
     var youtubeURL: URL? {
-        guard let youtubeID, !youtubeID.isEmpty else { return nil }
-        return URL(string: "https://www.youtube.com/watch?v=\(youtubeID)")
+        if let youtubeID, !youtubeID.isEmpty {
+            return URL(string: "https://www.youtube.com/watch?v=\(youtubeID)")
+        }
+        var components = URLComponents(string: "https://www.youtube.com/results")
+        components?.queryItems = [URLQueryItem(name: "search_query", value: "\(title) \(artist)")]
+        return components?.url
     }
 
     var categoryTitle: String {
