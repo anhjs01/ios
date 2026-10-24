@@ -5,13 +5,15 @@ struct AlejaWidgetEntry: TimelineEntry {
     let date: Date
     let message: String
     let slotTitle: String
+    let dayKey: String
+    let slot: CardSlot
 }
 
 struct AlejaWidgetProvider: TimelineProvider {
     private let suiteName = "group.com.anhjs01.aleja"
 
     func placeholder(in context: Context) -> AlejaWidgetEntry {
-        AlejaWidgetEntry(date: .now, message: "Un pequeño detalle para recordarte lo especial que eres.", slotTitle: "Una cartica para ti")
+        AlejaWidgetEntry(date: .now, message: "Un pequeño detalle para recordarte lo especial que eres.", slotTitle: "Una cartica para ti", dayKey: DailyCard.key(for: .now), slot: .morning)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (AlejaWidgetEntry) -> Void) {
@@ -50,7 +52,7 @@ struct AlejaWidgetProvider: TimelineProvider {
         let cardKey = "\(key)-\(slot.rawValue)"
         let message = defaults?.string(forKey: "widget.message.\(cardKey)")
             ?? "Abre la app para leer tu cartica de hoy."
-        return AlejaWidgetEntry(date: date, message: message, slotTitle: slot.title)
+        return AlejaWidgetEntry(date: date, message: message, slotTitle: slot.title, dayKey: key, slot: slot)
     }
 }
 
@@ -77,7 +79,7 @@ struct AlejaWidgetView: View {
         }
         .padding(4)
         .containerBackground(.background, for: .widget)
-        .widgetURL(URL(string: "aleja://today"))
+         .widgetURL(URL(string: "aleja://card?date=\(entry.dayKey)&slot=\(entry.slot.rawValue)") ?? URL(string: "aleja://today"))
     }
 }
 
