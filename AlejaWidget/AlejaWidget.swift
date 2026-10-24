@@ -41,7 +41,15 @@ struct AlejaWidgetProvider: TimelineProvider {
                 direction: .forward
             )
         }
-        return candidates.min() ?? date.addingTimeInterval(6 * 60 * 60)
+        // The day key changes at midnight too; refresh then so the widget
+        // doesn't keep showing yesterday's evening card until 06:00.
+        let nextMidnight = calendar.date(
+            byAdding: .day,
+            value: 1,
+            to: calendar.startOfDay(for: date)
+        )
+        return (candidates + [nextMidnight].compactMap { $0 }).min()
+            ?? date.addingTimeInterval(6 * 60 * 60)
     }
 
     private func makeEntry(for date: Date) -> AlejaWidgetEntry {
