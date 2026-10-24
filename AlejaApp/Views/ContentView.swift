@@ -193,16 +193,37 @@ struct ContentView: View {
         }
     }
 
+    private var calendarDateRange: ClosedRange<Date> {
+        let start = cardStore.calendarDays.first?.date ?? Calendar.current.startOfDay(for: .now)
+        let end = cardStore.calendarDays.last?.date ?? start
+        return start...end
+    }
+
     private var datePicker: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Calendario")
-                .font(.headline)
-                .foregroundStyle(Color(red: 0.10, green: 0.23, blue: 0.36))
-            DatePicker("Elegir día", selection: $selectedDate, displayedComponents: .date)
+            HStack {
+                Text("Calendario")
+                    .font(.headline)
+                    .foregroundStyle(Color(red: 0.10, green: 0.23, blue: 0.36))
+                Spacer()
+                Button {
+                    let today = Calendar.current.startOfDay(for: .now)
+                    selectedDate = min(max(today, calendarDateRange.lowerBound), calendarDateRange.upperBound)
+                } label: {
+                    Label("Ir a hoy", systemImage: "calendar")
+                        .font(.caption.weight(.semibold))
+                }
+                .buttonStyle(.bordered)
+                .tint(Color(red: 0.12, green: 0.47, blue: 0.75))
+            }
+            DatePicker("Elegir día", selection: $selectedDate, in: calendarDateRange, displayedComponents: .date)
                 .datePickerStyle(.graphical)
                 .tint(Color(red: 0.13, green: 0.53, blue: 0.82))
                 .padding(12)
                 .background(.white.opacity(0.88), in: RoundedRectangle(cornerRadius: 22))
+            Text("Puedes explorar desde el 16 de octubre de 2026 hasta el 15 de octubre de 2027.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 }
