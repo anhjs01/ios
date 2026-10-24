@@ -230,6 +230,17 @@ struct ContentView: View {
         return start...end
     }
 
+    private var calendarDateRangeLabel: String {
+        guard let first = cardStore.calendarDays.first?.date,
+              let last = cardStore.calendarDays.last?.date else {
+            return "El calendario todavía no tiene fechas cargadas."
+        }
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "es_CO")
+        formatter.dateFormat = "d 'de' MMMM 'de' yyyy"
+        return "Puedes explorar desde el \\(formatter.string(from: first)) hasta el \\(formatter.string(from: last))."
+    }
+
     private var datePicker: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -252,7 +263,8 @@ struct ContentView: View {
                 .tint(Color(red: 0.13, green: 0.53, blue: 0.82))
                 .padding(12)
                 .background(.white.opacity(0.88), in: RoundedRectangle(cornerRadius: 22))
-            Text("Puedes explorar desde el 16 de octubre de 2026 hasta el 15 de octubre de 2027.")
+                .accessibilityHint("Elige una fecha para consultar las tres carticas de ese día.")
+            Text(calendarDateRangeLabel)
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
