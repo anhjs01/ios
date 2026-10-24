@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject private var cardStore: CardStore
-    @Environment(\\.scenePhase) private var scenePhase
+    @Environment(\.scenePhase) private var scenePhase
     @State private var selectedDate = Calendar.current.startOfDay(for: .now)
     @State private var navigationPath = NavigationPath()
     @StateObject private var reminderManager = ReminderManager()
