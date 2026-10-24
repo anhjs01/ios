@@ -1,0 +1,90 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000001 /* AlejaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* AlejaApp.swift */; };
+		A10000000000000000000002 /* DailyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* DailyCard.swift */; };
+		A10000000000000000000003 /* CardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* CardStore.swift */; };
+		A10000000000000000000004 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* ContentView.swift */; };
+		A10000000000000000000005 /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* CardDetailView.swift */; };
+		A10000000000000000000006 /* AlejaWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* AlejaWidget.swift */; };
+		A10000000000000000000007 /* DailyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* DailyCard.swift */; };
+		A10000000000000000000008 /* AlejaWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* AlejaWidget.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A30000000000000000000001 /* PBXContainerItemProxy */ = {isa = PBXContainerItemProxy; containerPortal = A40000000000000000000001 /* Project object */; proxyType = 1; remoteGlobalIDString = B10000000000000000000002; remoteInfo = AlejaWidget; };
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A50000000000000000000001 /* Embed App Extensions */ = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 13; files = (A10000000000000000000008 /* AlejaWidget.appex in Embed App Extensions */, ); name = "Embed App Extensions"; runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A20000000000000000000001 /* AlejaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlejaApp.swift; sourceTree = "<group>"; };
+		A20000000000000000000002 /* DailyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCard.swift; sourceTree = "<group>"; };
+		A20000000000000000000003 /* CardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardStore.swift; sourceTree = "<group>"; };
+		A20000000000000000000004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A20000000000000000000005 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
+		A20000000000000000000006 /* AlejaWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlejaWidget.swift; sourceTree = "<group>"; };
+		A20000000000000000000007 /* AlejaApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AlejaApp.entitlements; sourceTree = "<group>"; };
+		A20000000000000000000008 /* AlejaWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AlejaWidget.entitlements; sourceTree = "<group>"; };
+		A20000000000000000000009 /* Aleja.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aleja.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000010 /* AlejaWidget.appex */ = {isa = PBXFileReference; explicitFileType = wrapper.app-extension; includeInIndex = 0; path = AlejaWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000011 /* Aleja.xcscheme */ = {isa = PBXFileReference; lastKnownFileType = text; path = Aleja.xcscheme; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A60000000000000000000001 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		A60000000000000000000002 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A70000000000000000000001 = {isa = PBXGroup; children = (A70000000000000000000002 /* AlejaApp */, A70000000000000000000003 /* AlejaWidget */, A70000000000000000000004 /* Products */, ); sourceTree = "<group>"; };
+		A70000000000000000000002 /* AlejaApp */ = {isa = PBXGroup; path = AlejaApp; sourceTree = "<group>"; children = (A20000000000000000000001 /* AlejaApp.swift */, A70000000000000000000005 /* Models */, A70000000000000000000006 /* Services */, A70000000000000000000007 /* Views */, A20000000000000000000007 /* AlejaApp.entitlements */, ); };
+		A70000000000000000000003 /* AlejaWidget */ = {isa = PBXGroup; path = AlejaWidget; sourceTree = "<group>"; children = (A20000000000000000000006 /* AlejaWidget.swift */, A20000000000000000000008 /* AlejaWidget.entitlements */, ); };
+		A70000000000000000000004 /* Products */ = {isa = PBXGroup; name = Products; sourceTree = "<group>"; children = (A20000000000000000000009 /* Aleja.app */, A20000000000000000000010 /* AlejaWidget.appex */, ); };
+		A70000000000000000000005 /* Models */ = {isa = PBXGroup; path = Models; sourceTree = "<group>"; children = (A20000000000000000000002 /* DailyCard.swift */, ); };
+		A70000000000000000000006 /* Services */ = {isa = PBXGroup; path = Services; sourceTree = "<group>"; children = (A20000000000000000000003 /* CardStore.swift */, ); };
+		A70000000000000000000007 /* Views */ = {isa = PBXGroup; path = Views; sourceTree = "<group>"; children = (A20000000000000000000004 /* ContentView.swift */, A20000000000000000000005 /* CardDetailView.swift */, ); };
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B10000000000000000000001 /* Aleja */ = {isa = PBXNativeTarget; buildConfigurationList = B20000000000000000000001 /* Build configuration list for PBXNativeTarget "Aleja" */; buildPhases = (A60000000000000000000001 /* Frameworks */, B30000000000000000000001 /* Sources */, A50000000000000000000001 /* Embed App Extensions */, ); buildRules = (); dependencies = (B40000000000000000000001 /* PBXTargetDependency */, ); name = Aleja; productName = Aleja; productReference = A20000000000000000000009 /* Aleja.app */; productType = "com.apple.product-type.application"; };
+		B10000000000000000000002 /* AlejaWidget */ = {isa = PBXNativeTarget; buildConfigurationList = B20000000000000000000002 /* Build configuration list for PBXNativeTarget "AlejaWidget" */; buildPhases = (A60000000000000000000002 /* Frameworks */, B30000000000000000000002 /* Sources */, ); buildRules = (); dependencies = (); name = AlejaWidget; productName = AlejaWidget; productReference = A20000000000000000000010 /* AlejaWidget.appex */; productType = "com.apple.product-type.app-extension"; };
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A40000000000000000000001 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastUpgradeCheck = 1600; TargetAttributes = {B10000000000000000000001 = {CreatedOnToolsVersion = 16.0; }; B10000000000000000000002 = {CreatedOnToolsVersion = 16.0; }; }; }; buildConfigurationList = B20000000000000000000003 /* Build configuration list for PBXProject "Aleja" */; compatibilityVersion = "Xcode 14.0"; developmentRegion = es; hasScannedForEncodings = 0; knownRegions = (en, es, Base, ); mainGroup = A70000000000000000000001; productRefGroup = A70000000000000000000004 /* Products */; projectDirPath = ""; projectRoot = ""; targets = (B10000000000000000000001 /* Aleja */, B10000000000000000000002 /* AlejaWidget */, ); };
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B30000000000000000000001 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001 /* AlejaApp.swift in Sources */, A10000000000000000000002 /* DailyCard.swift in Sources */, A10000000000000000000003 /* CardStore.swift in Sources */, A10000000000000000000004 /* ContentView.swift in Sources */, A10000000000000000000005 /* CardDetailView.swift in Sources */, ); runOnlyForDeploymentPostprocessing = 0; };
+		B30000000000000000000002 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000006 /* AlejaWidget.swift in Sources */, A10000000000000000000007 /* DailyCard.swift in Sources */, ); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B40000000000000000000001 /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = B10000000000000000000002 /* AlejaWidget */; targetProxy = A30000000000000000000001 /* PBXContainerItemProxy */; };
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C10000000000000000000001 /* Project Debug */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0; }; name = Debug; };
+		C10000000000000000000002 /* Project Release */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0; }; name = Release; };
+		C10000000000000000000003 /* App Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_ENTITLEMENTS = AlejaApp/AlejaApp.entitlements; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = Aleja; INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle"; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; PRODUCT_BUNDLE_IDENTIFIER = com.anhjs01.aleja; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Debug; };
+		C10000000000000000000004 /* App Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_ENTITLEMENTS = AlejaApp/AlejaApp.entitlements; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = Aleja; INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle"; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; PRODUCT_BUNDLE_IDENTIFIER = com.anhjs01.aleja; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Release; };
+		C10000000000000000000005 /* Widget Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_ENTITLEMENTS = AlejaWidget/AlejaWidget.entitlements; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_NSExtension_NSExtensionPointIdentifier = "com.apple.widgetkit-extension"; IPHONEOS_DEPLOYMENT_TARGET = 17.0; PRODUCT_BUNDLE_IDENTIFIER = com.anhjs01.aleja.widget; PRODUCT_NAME = "$(TARGET_NAME)"; SKIP_INSTALL = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Debug; };
+		C10000000000000000000006 /* Widget Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_ENTITLEMENTS = AlejaWidget/AlejaWidget.entitlements; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_NSExtension_NSExtensionPointIdentifier = "com.apple.widgetkit-extension"; IPHONEOS_DEPLOYMENT_TARGET = 17.0; PRODUCT_BUNDLE_IDENTIFIER = com.anhjs01.aleja.widget; PRODUCT_NAME = "$(TARGET_NAME)"; SKIP_INSTALL = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Release; };
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B20000000000000000000001 /* Build configuration list for PBXNativeTarget "Aleja" */ = {isa = XCConfigurationList; buildConfigurations = (C10000000000000000000003 /* App Debug */, C10000000000000000000004 /* App Release */, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		B20000000000000000000002 /* Build configuration list for PBXNativeTarget "AlejaWidget" */ = {isa = XCConfigurationList; buildConfigurations = (C10000000000000000000005 /* Widget Debug */, C10000000000000000000006 /* Widget Release */, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		B20000000000000000000003 /* Build configuration list for PBXProject "Aleja" */ = {isa = XCConfigurationList; buildConfigurations = (C10000000000000000000001 /* Project Debug */, C10000000000000000000002 /* Project Release */, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = A40000000000000000000001 /* Project object */;
+}
