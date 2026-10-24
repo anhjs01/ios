@@ -2,35 +2,45 @@
 
 Aplicación personal para Aleja, desarrollada con SwiftUI y WidgetKit. Este repositorio es independiente de los proyectos web `mismatachos` y `alejamatachos`.
 
-## Objetivos
+## Lo que ya está incorporado
 
-- Tres carticas diarias, previstas para las 06:00, 12:00 y 18:00 (hora local del iPhone).
+- Proyecto de Xcode con una app SwiftUI y una extensión WidgetKit.
+- Tres carticas por fecha, previstas para las 06:00, 12:00 y 18:00 (hora local del iPhone).
 - Calendario para consultar días anteriores y futuros.
-- Widgets de pantalla de inicio y pantalla bloqueada; el widget muestra un fragmento y abre la app para leer la cartica completa.
-- Música con reproducción exclusivamente manual: nunca iniciar audio automáticamente.
-- Contenido e historial locales en cada iPhone, sin sincronización entre dispositivos por defecto.
-- Interfaz en español, con una identidad visual azul cielo y un estilo artístico/urbano.
+- Edición y almacenamiento local de los mensajes.
+- Widget de inicio y widget rectangular de pantalla bloqueada, con fragmento de texto y enlace a la app.
+- Catálogo musical original importado como datos: 360 canciones, en cuatro categorías.
+- Calendario original importado como datos: 78 días consecutivos, del 16 de octubre de 2026 al 1 de enero de 2027.
+- La música solo se abre cuando se pulsa un control; no hay reproducción automática.
+- Flujo de compilación automatizado para intentar compilar en un runner de macOS con Xcode.
 
-## Estado inicial
+## Fuentes y contenido
 
-Repositorio recién creado. La estructura de código se añadirá por etapas y se verificará antes de darla por terminada. El código fuente por sí solo no equivale a una app instalada ni a una compilación verificada.
+Los datos del calendario y las canciones se adaptaron desde el proyecto web existente, sin modificarlo:
 
-## Requisitos para compilar
+- `AlejaApp/Resources/calendario-original.json`
+- `AlejaApp/Resources/catalogo-canciones.json`
 
-Se necesita macOS con una versión compatible de Xcode para crear/abrir el proyecto, configurar la firma, compilar y probar en un iPhone. El desarrollo de la lógica y la revisión del código pueden avanzar desde otros sistemas, pero la compilación y firma de iOS requieren Xcode.
+El catálogo tiene 360 canciones distribuidas en amor (46), filosófica (210), hot (58) y ambiente (46). Cinco entradas de Shyheim aún no tienen ID de YouTube en la fuente original; se conservan sin inventar enlaces. No se detectaron IDs de YouTube duplicados en la importación.
 
-## Decisiones técnicas
+El calendario fuente contiene 78 días, sin saltos de fecha, entre el 16 de octubre de 2026 y el 1 de enero de 2027. Las fechas fuera de ese intervalo muestran carticas editables de reserva hasta que se amplíe y revise el contenido.
 
-- SwiftUI para la aplicación.
-- WidgetKit para widgets.
-- Almacenamiento local inicialmente.
-- La reproducción musical se implementará con APIs nativas compatibles con iOS; no se trasladará el reproductor basado en iframe de la web.
-- Las notificaciones locales, si se usan para recordar las carticas, requerirán permiso explícito del usuario.
+## Música en iOS
+
+Los enlaces originales son de YouTube, no archivos de audio directos. La app abre esos enlaces únicamente cuando la persona toca el botón. Esto conserva el comportamiento manual y evita intentar reproducir una página web con `AVPlayer`. La reproducción en segundo plano depende de YouTube y de la aplicación instalada. Todavía falta decidir e integrar una fuente de audio que permita controlar la reproducción nativamente sin prometer funciones que los enlaces actuales no ofrecen.
+
+## Widgets y permisos
+
+La app y el widget usan el grupo compartido `group.com.anhjs01.aleja`. Para que el intercambio funcione en un dispositivo real, habrá que habilitar ese App Group en la configuración de firma de Apple para ambos targets. Los widgets se actualizan según las políticas de WidgetKit; iOS no garantiza actualizaciones exactas a una hora determinada.
+
+## Compilar y probar
+
+El workflow `.github/workflows/ios-build.yml` intenta compilar el proyecto en un runner macOS. La compilación real y la instalación en un iPhone deben verificarse con Xcode. Para firmar e instalar en un dispositivo, también hay que configurar el equipo de desarrollo y los identificadores de firma.
 
 ## Próximos pasos
 
-1. Añadir modelos y almacenamiento local.
-2. Crear la vista principal, el calendario y el detalle de cada cartica.
-3. Añadir la extensión WidgetKit y el enlace profundo a cada día.
-4. Integrar reproducción manual y revisar derechos/disponibilidad de las fuentes musicales.
-5. Abrir en Xcode, compilar, probar y corregir en dispositivo real.
+1. Revisar el resultado de la compilación automatizada y corregir cualquier error.
+2. Ampliar el calendario más allá de los 78 días fuente sin duplicar ni inventar mensajes.
+3. Revisar los enlaces musicales pendientes y decidir una solución de audio compatible con iOS.
+4. Añadir ajustes para notificaciones locales, solicitando permiso explícito.
+5. Probar el widget, los enlaces profundos, el guardado y el audio en un iPhone real.
