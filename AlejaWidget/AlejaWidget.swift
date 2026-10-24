@@ -20,8 +20,26 @@ struct AlejaWidgetProvider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<AlejaWidgetEntry>) -> Void) {
         let entry = makeEntry(for: .now)
-        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 30, to: .now) ?? .now.addingTimeInterval(1800)
+        let nextUpdate = nextSlotBoundary(after: .now)
         completion(Timeline(entries: [entry], policy: .after(nextUpdate)))
+    }
+
+    private func nextSlotBoundary(after date: Date) -> Date {
+        let calendar = Calendar.current
+        let hours = [6, 12, 18]
+        let candidates = hours.compactMap { hour -> Date? in
+            var components = calendar.dateComponents([.year, .month, .day], from: date)
+            components.hour = hour
+            components.minute = 0
+            components.second = 0
+            return calendar.nextDate(
+                after: date,
+                matching: components,
+                matchingPolicy: .nextTime,
+                direction: .forward
+            )
+        }
+        return candidates.min() ?? date.addingTimeInterval(6 * 60 * 60)
     }
 
     private func makeEntry(for date: Date) -> AlejaWidgetEntry {
