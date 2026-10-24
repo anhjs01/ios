@@ -44,6 +44,16 @@ if [day["dia"] for day in days] != list(range(1, 366)):
     fail("calendar day numbers must run from 1 to 365")
 if seen_dates != sorted(seen_dates):
     fail("calendar dates are not sorted")
+added_days = [day for day in days if day["dia"] > 78]
+added_song_ids = [day["youtubeId"] for day in added_days if day["youtubeId"]]
+if len(added_days) != 287:
+    fail(f"expected 287 days added from annual reference, got {len(added_days)}")
+if len(added_song_ids) != len(set(added_song_ids)):
+    fail("newly added calendar days contain repeated YouTube IDs")
+for day in added_days:
+    expected_url = f"https://www.youtube.com/watch?v={day['youtubeId']}" if day["youtubeId"] else None
+    if day["cancionUrl"] != expected_url:
+        fail(f"day {day['dia']} has inconsistent song URL and YouTube ID")
 if seen_dates[0].isoformat() != "2026-10-16" or seen_dates[-1].isoformat() != "2027-10-15":
     fail(f"unexpected calendar range: {seen_dates[0]} through {seen_dates[-1]}")
 for previous, current in zip(seen_dates, seen_dates[1:]):
