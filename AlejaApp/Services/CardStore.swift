@@ -34,11 +34,9 @@ final class CardStore: ObservableObject {
     }
 
     func update(_ card: DailyCard) {
-        if let index = cards.firstIndex(where: { $0.id == card.id }) {
-            cards[index] = card
-        } else {
-            cards.append(card)
-        }
+        // Replace every copy of this logical card so legacy duplicate IDs cannot hide edits.
+        cards.removeAll { $0.id == card.id }
+        cards.append(card)
         save()
     }
 
@@ -106,7 +104,18 @@ final class CardStore: ObservableObject {
             cards = []
             return
         }
-        cards = decoded
+        // Keep the newest saved value for each day/slot and discard legacy duplicates.
+        var newestByID: [String: DailyCard] = [:]
+        for card in decoded {
+            newestByID[card.id] = card
+        }
+
+        var seen = Set<String>()
+        cards = decoded.compactMap { card in
+            guard !seen.contains(card.id), let newest = newestByID[card.id] else { return nil }
+            seen.insert(card.id)
+            return newest
+        }
     }
 
     private func save() {
