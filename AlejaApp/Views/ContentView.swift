@@ -4,6 +4,8 @@ struct ContentView: View {
     @EnvironmentObject private var cardStore: CardStore
     @State private var selectedDate = Calendar.current.startOfDay(for: .now)
     @State private var navigationPath = NavigationPath()
+    @StateObject private var reminderManager = ReminderManager()
+    @State private var showReminderAlert = false
 
     private var cardsForSelectedDate: [DailyCard] {
         cardStore.cards(for: selectedDate)
@@ -23,7 +25,9 @@ struct ContentView: View {
                     VStack(alignment: .leading, spacing: 20) {
                         header
                         musicCatalogLink
+                        reminderControl
                         datePicker
+                        dailyTheme
 
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Tus carticas")
@@ -45,6 +49,11 @@ struct ContentView: View {
                 CardDetailView(card: card)
             }
             .toolbar(.hidden, for: .navigationBar)
+            .alert("Recordatorios", isPresented: $showReminderAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(reminderManager.statusMessage ?? "Puedes gestionar los recordatorios en Ajustes.")
+            }
             .onOpenURL { url in
                 handleDeepLink(url)
             }
@@ -116,6 +125,64 @@ struct ContentView: View {
             .background(.white.opacity(0.9), in: RoundedRectangle(cornerRadius: 20))
         }
         .buttonStyle(.plain)
+    }
+
+    private var reminderControl: some View {
+        Button {
+            Task {
+                if reminderManager.isEnabled {
+                    reminderManager.disableDailyReminders()
+                } else {
+                    await reminderManager.enableDailyReminders()
+                }
+                showReminderAlert = true
+            }
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: reminderManager.isEnabled ? "bell.badge.fill" : "bell")
+                    .font(.title2)
+                    .foregroundStyle(reminderManager.isEnabled ? .white : Color(red: 0.12, green: 0.47, blue: 0.75))
+                    .frame(width: 46, height: 46)
+                    .background(reminderManager.isEnabled ? Color(red: 0.12, green: 0.47, blue: 0.75) : Color.blue.opacity(0.09), in: RoundedRectangle(cornerRadius: 15))
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(reminderManager.isEnabled ? "Recordatorios activados" : "Activar recordatorios")
+                        .font(.headline)
+                        .foregroundStyle(Color(red: 0.08, green: 0.20, blue: 0.34))
+                    Text("06:00 · 12:00 · 18:00")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                Image(systemName: reminderManager.isEnabled ? "checkmark.circle.fill" : "chevron.right")
+                    .foregroundStyle(reminderManager.isEnabled ? .green : .tertiary)
+            }
+            .padding(14)
+            .background(.white.opacity(0.9), in: RoundedRectangle(cornerRadius: 20))
+        }
+        .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private var dailyTheme: some View {
+        if let theme = cardStore.calendarDay(for: selectedDate) {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 8) {
+                    Text(theme.icono).font(.title2)
+                    Text("El detalle de hoy")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                }
+                Text(theme.categoria)
+                    .font(.title3.bold())
+                    .foregroundStyle(Color(red: 0.08, green: 0.20, blue: 0.34))
+                Text(theme.fechaTexto)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(16)
+            .background(.white.opacity(0.9), in: RoundedRectangle(cornerRadius: 20))
+        }
     }
 
     private var datePicker: some View {
