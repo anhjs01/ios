@@ -21,7 +21,7 @@ final class ReminderManager: ObservableObject {
 
     func refreshStatus() {
         center.getPendingNotificationRequests { [weak self] requests in
-            let ids = Set(requests.map(\\.identifier))
+            let ids = Set(requests.map(\.identifier))
             let enabled = ["aleja.morning", "aleja.midday", "aleja.evening"].allSatisfy(ids.contains)
             Task { @MainActor [weak self] in
                 self?.isEnabled = enabled
