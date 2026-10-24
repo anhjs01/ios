@@ -38,6 +38,13 @@ for index, day in enumerate(days, start=1):
     for field in ("buenosDias", "detalle", "buenasNoches", "cancionTitulo", "cancionArtista"):
         if not isinstance(day[field], str) or not day[field].strip():
             fail(f"calendar item {index}: {field} is empty")
+    youtube_id = day["youtubeId"]
+    expected_url = f"https://www.youtube.com/watch?v={youtube_id}" if youtube_id else None
+    if day["cancionUrl"] != expected_url:
+        fail(f"calendar item {index}: song URL does not match YouTube ID")
+    if youtube_id and (not isinstance(youtube_id, str) or len(youtube_id) != 11
+                       or any(char not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" for char in youtube_id)):
+        fail(f"calendar item {index}: malformed YouTube ID {youtube_id!r}")
 if len(set(seen_dates)) != len(seen_dates):
     fail("calendar contains duplicate dates")
 if [day["dia"] for day in days] != list(range(1, 366)):
@@ -82,6 +89,17 @@ if len(youtube_ids) != len(set(youtube_ids)):
 missing_links = [song for song in songs if not song["youtubeID"]]
 if len(missing_links) != 5:
     fail(f"expected 5 source songs without YouTube IDs, got {len(missing_links)}")
+
+songs_by_youtube_id = {song["youtubeID"]: song for song in songs if song["youtubeID"]}
+for index, day in enumerate(days, start=1):
+    youtube_id = day["youtubeId"]
+    if not youtube_id:
+        fail(f"calendar item {index}: assigned song is missing its YouTube ID")
+    catalog_song = songs_by_youtube_id.get(youtube_id)
+    if catalog_song is None:
+        fail(f"calendar item {index}: song ID {youtube_id} is absent from the catalog")
+    if catalog_song["title"] != day["cancionTitulo"] or catalog_song["artist"] != day["cancionArtista"]:
+        fail(f"calendar item {index}: song title/artist do not match catalog entry {youtube_id}")
 
 print(f"PASS: {len(days)} consecutive calendar days, {seen_dates[0]} through {seen_dates[-1]}")
 print(f"PASS: {len(songs)} songs with categories {actual_categories}")
