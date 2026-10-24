@@ -25,6 +25,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A20000000000000000000013 /* CalendarDayContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayContent.swift; sourceTree = "<group>"; };
+		A20000000000000000000014 /* calendario-original.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "calendario-original.json"; sourceTree = "<group>"; };
+		A20000000000000000000015 /* catalogo-canciones.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "catalogo-canciones.json"; sourceTree = "<group>"; };
 		A20000000000000000000001 /* AlejaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlejaApp.swift; sourceTree = "<group>"; };
 		A20000000000000000000002 /* DailyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCard.swift; sourceTree = "<group>"; };
 		A20000000000000000000003 /* CardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardStore.swift; sourceTree = "<group>"; };
@@ -45,16 +48,17 @@
 
 /* Begin PBXGroup section */
 		A70000000000000000000001 = {isa = PBXGroup; children = (A70000000000000000000002 /* AlejaApp */, A70000000000000000000003 /* AlejaWidget */, A70000000000000000000004 /* Products */, ); sourceTree = "<group>"; };
-		A70000000000000000000002 /* AlejaApp */ = {isa = PBXGroup; path = AlejaApp; sourceTree = "<group>"; children = (A20000000000000000000001 /* AlejaApp.swift */, A70000000000000000000005 /* Models */, A70000000000000000000006 /* Services */, A70000000000000000000007 /* Views */, A20000000000000000000007 /* AlejaApp.entitlements */, A20000000000000000000012 /* Info.plist */, ); };
+		A70000000000000000000002 /* AlejaApp */ = {isa = PBXGroup; path = AlejaApp; sourceTree = "<group>"; children = (A20000000000000000000001 /* AlejaApp.swift */, A70000000000000000000005 /* Models */, A70000000000000000000006 /* Services */, A70000000000000000000007 /* Views */, A70000000000000000000008 /* Resources */, A20000000000000000000007 /* AlejaApp.entitlements */, A20000000000000000000012 /* Info.plist */, ); };
 		A70000000000000000000003 /* AlejaWidget */ = {isa = PBXGroup; path = AlejaWidget; sourceTree = "<group>"; children = (A20000000000000000000006 /* AlejaWidget.swift */, A20000000000000000000008 /* AlejaWidget.entitlements */, ); };
 		A70000000000000000000004 /* Products */ = {isa = PBXGroup; name = Products; sourceTree = "<group>"; children = (A20000000000000000000009 /* Aleja.app */, A20000000000000000000010 /* AlejaWidget.appex */, ); };
-		A70000000000000000000005 /* Models */ = {isa = PBXGroup; path = Models; sourceTree = "<group>"; children = (A20000000000000000000002 /* DailyCard.swift */, ); };
+		A70000000000000000000005 /* Models */ = {isa = PBXGroup; path = Models; sourceTree = "<group>"; children = (A20000000000000000000002 /* DailyCard.swift */, A20000000000000000000013 /* CalendarDayContent.swift */, ); };
+		A70000000000000000000008 /* Resources */ = {isa = PBXGroup; path = Resources; sourceTree = "<group>"; children = (A20000000000000000000014 /* calendario-original.json */, A20000000000000000000015 /* catalogo-canciones.json */, ); };
 		A70000000000000000000006 /* Services */ = {isa = PBXGroup; path = Services; sourceTree = "<group>"; children = (A20000000000000000000003 /* CardStore.swift */, ); };
 		A70000000000000000000007 /* Views */ = {isa = PBXGroup; path = Views; sourceTree = "<group>"; children = (A20000000000000000000004 /* ContentView.swift */, A20000000000000000000005 /* CardDetailView.swift */, ); };
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B10000000000000000000001 /* Aleja */ = {isa = PBXNativeTarget; buildConfigurationList = B20000000000000000000001 /* Build configuration list for PBXNativeTarget "Aleja" */; buildPhases = (A60000000000000000000001 /* Frameworks */, B30000000000000000000001 /* Sources */, A50000000000000000000001 /* Embed App Extensions */, ); buildRules = (); dependencies = (B40000000000000000000001 /* PBXTargetDependency */, ); name = Aleja; productName = Aleja; productReference = A20000000000000000000009 /* Aleja.app */; productType = "com.apple.product-type.application"; };
+		B10000000000000000000001 /* Aleja */ = {isa = PBXNativeTarget; buildConfigurationList = B20000000000000000000001 /* Build configuration list for PBXNativeTarget "Aleja" */; buildPhases = (A60000000000000000000001 /* Frameworks */, B30000000000000000000001 /* Sources */, A50000000000000000000001 /* Embed App Extensions */, A60000000000000000000003 /* Resources */, ); buildRules = (); dependencies = (B40000000000000000000001 /* PBXTargetDependency */, ); name = Aleja; productName = Aleja; productReference = A20000000000000000000009 /* Aleja.app */; productType = "com.apple.product-type.application"; };
 		B10000000000000000000002 /* AlejaWidget */ = {isa = PBXNativeTarget; buildConfigurationList = B20000000000000000000002 /* Build configuration list for PBXNativeTarget "AlejaWidget" */; buildPhases = (A60000000000000000000002 /* Frameworks */, B30000000000000000000002 /* Sources */, ); buildRules = (); dependencies = (); name = AlejaWidget; productName = AlejaWidget; productReference = A20000000000000000000010 /* AlejaWidget.appex */; productType = "com.apple.product-type.app-extension"; };
 /* End PBXNativeTarget section */
 
@@ -63,7 +67,7 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B30000000000000000000001 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001 /* AlejaApp.swift in Sources */, A10000000000000000000002 /* DailyCard.swift in Sources */, A10000000000000000000003 /* CardStore.swift in Sources */, A10000000000000000000004 /* ContentView.swift in Sources */, A10000000000000000000005 /* CardDetailView.swift in Sources */, ); runOnlyForDeploymentPostprocessing = 0; };
+		B30000000000000000000001 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001 /* AlejaApp.swift in Sources */, A10000000000000000000002 /* DailyCard.swift in Sources */, A10000000000000000000003 /* CardStore.swift in Sources */, A10000000000000000000004 /* ContentView.swift in Sources */, A10000000000000000000005 /* CardDetailView.swift in Sources */, A10000000000000000000009 /* CalendarDayContent.swift in Sources */, ); runOnlyForDeploymentPostprocessing = 0; };
 		B30000000000000000000002 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000006 /* AlejaWidget.swift in Sources */, A10000000000000000000007 /* DailyCard.swift in Sources */, ); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXSourcesBuildPhase section */
 
