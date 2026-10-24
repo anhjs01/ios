@@ -3,13 +3,14 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject private var cardStore: CardStore
     @State private var selectedDate = Calendar.current.startOfDay(for: .now)
+    @State private var navigationPath = NavigationPath()
 
     private var cardsForSelectedDate: [DailyCard] {
         cardStore.cards(for: selectedDate)
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             ZStack {
                 LinearGradient(
                     colors: [Color(red: 0.86, green: 0.95, blue: 1.0), Color(red: 0.97, green: 0.98, blue: 1.0)],
@@ -29,9 +30,7 @@ struct ContentView: View {
                                 .foregroundStyle(Color(red: 0.10, green: 0.23, blue: 0.36))
 
                             ForEach(cardsForSelectedDate) { card in
-                                NavigationLink {
-                                    CardDetailView(card: card)
-                                } label: {
+                                NavigationLink(value: card) {
                                     CardRow(card: card)
                                 }
                                 .buttonStyle(.plain)
@@ -41,10 +40,28 @@ struct ContentView: View {
                     .padding(20)
                 }
             }
+            .navigationDestination(for: DailyCard.self) { card in
+                CardDetailView(card: card)
+            }
             .toolbar(.hidden, for: .navigationBar)
+            .onOpenURL { url in
+                handleDeepLink(url)
+            }
             .onChange(of: selectedDate) { _, newDate in
                 cardStore.ensureCards(for: newDate)
             }
+        }
+    }
+
+    private func handleDeepLink(_ url: URL) {
+        guard url.scheme == "aleja", url.host == "today" else { return }
+        let today = Calendar.current.startOfDay(for: .now)
+        selectedDate = today
+        cardStore.ensureCards(for: today)
+        let hour = Calendar.current.component(.hour, from: .now)
+        let slot: CardSlot = hour < 12 ? .morning : (hour < 18 ? .midday : .evening)
+        if let card = cardStore.cards(for: today).first(where: { $0.slot == slot }) {
+            navigationPath.append(card)
         }
     }
 
