@@ -22,6 +22,7 @@ struct ContentView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
                         header
+                        musicCatalogLink
                         datePicker
 
                         VStack(alignment: .leading, spacing: 12) {
@@ -87,6 +88,34 @@ struct ContentView: View {
                 .foregroundStyle(.secondary)
         }
         .padding(.top, 14)
+    }
+
+    private var musicCatalogLink: some View {
+        NavigationLink {
+            MusicCatalogView()
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "headphones")
+                    .font(.title2)
+                    .foregroundStyle(.white)
+                    .frame(width: 46, height: 46)
+                    .background(Color(red: 0.12, green: 0.47, blue: 0.75), in: RoundedRectangle(cornerRadius: 15))
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Rincón del sonido")
+                        .font(.headline)
+                        .foregroundStyle(Color(red: 0.08, green: 0.20, blue: 0.34))
+                    Text("Explora las canciones del catálogo")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(14)
+            .background(.white.opacity(0.9), in: RoundedRectangle(cornerRadius: 20))
+        }
+        .buttonStyle(.plain)
     }
 
     private var datePicker: some View {
