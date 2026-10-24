@@ -1,13 +1,13 @@
 import SwiftUI
 import WidgetKit
 
-private struct AlejaWidgetEntry: TimelineEntry {
+struct AlejaWidgetEntry: TimelineEntry {
     let date: Date
     let message: String
     let slotTitle: String
 }
 
-private struct AlejaWidgetProvider: TimelineProvider {
+struct AlejaWidgetProvider: TimelineProvider {
     private let suiteName = "group.com.anhjs01.aleja"
 
     func placeholder(in context: Context) -> AlejaWidgetEntry {
