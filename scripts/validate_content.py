@@ -170,7 +170,18 @@ for bundle_id in ("com.anhjs01.aleja", "com.anhjs01.aleja.widget"):
     if bundle_id not in project_text:
         fail(f"Xcode project is missing expected bundle identifier {bundle_id}")
 
-print("PASS: shared App Group, app deep-link scheme, and app/widget bundle IDs")
+for entitlement_path in ("AlejaApp/AlejaApp.entitlements", "AlejaWidget/AlejaWidget.entitlements"):
+    if f"CODE_SIGN_ENTITLEMENTS = {entitlement_path};" not in project_text:
+        fail(f"Xcode target is not configured to sign with {entitlement_path}")
+
+widget_source = (ROOT / "AlejaWidget/AlejaWidget.swift").read_text(encoding="utf-8")
+app_source = (ROOT / "AlejaApp/Views/ContentView.swift").read_text(encoding="utf-8")
+if "aleja://card?date=" not in widget_source:
+    fail("widget must deep-link with the displayed date and card slot")
+if 'url.host == "card"' not in app_source or 'name == "date"' not in app_source or 'name == "slot"' not in app_source:
+    fail("app deep-link handler must parse card host, date, and slot")
+
+print("PASS: shared App Group, deep-link scheme, signed entitlements, and widget route")
 print(f"PASS: {len(days)} consecutive calendar days, {seen_dates[0]} through {seen_dates[-1]}")
 print(f"PASS: {len(songs)} songs with categories {actual_categories}")
 print(f"INFO: {len(missing_links)} songs lack source YouTube IDs; the app will offer search links instead.")
