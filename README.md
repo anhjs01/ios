@@ -22,7 +22,7 @@ Los datos del calendario y las canciones se adaptaron desde el proyecto web exis
 - `AlejaApp/Resources/calendario-original.json`
 - `AlejaApp/Resources/catalogo-canciones.json`
 
-El catálogo tiene 360 canciones distribuidas en amor (46), filosófica (210), hot (58) y ambiente (46). Cinco entradas de Shyheim aún no tienen ID de YouTube en la fuente original; se conservan sin inventar enlaces. No se detectaron IDs de YouTube duplicados en la importación.
+El catálogo tiene 360 canciones distribuidas en amor (46), filosófica (210), hot (58) y ambiente (46). Cinco entradas de Shyheim aún no tienen ID de YouTube en la fuente original; se conservan sin inventar enlaces. No se detectaron IDs de YouTube duplicados en el catálogo.
 
 El calendario nativo contiene 365 días sin saltos. Los primeros 78 conservan el contenido fechado del proyecto web actual; los 287 restantes se completaron a partir del calendario anual de referencia. Las canciones añadidas se eligen del catálogo original según el tono de cada día y no se repiten entre esos 287 días. Los duplicados que ya existían en los primeros 78 días se conservan para no alterar ese contenido fechado.
 
@@ -40,8 +40,6 @@ El workflow `.github/workflows/ios-build.yml` intenta compilar el proyecto en un
 
 ## Próximos pasos
 
-1. Revisar el resultado de la compilación automatizada y corregir cualquier error.
-2. Ampliar el calendario más allá de los 78 días fuente sin duplicar ni inventar mensajes.
-3. Revisar los enlaces musicales pendientes y decidir una solución de audio compatible con iOS.
-4. Revisar el resultado de compilación de los últimos cambios de recordatorios y corregir lo que aparezca.
-5. Probar el widget, los enlaces profundos, los permisos de notificaciones, el guardado y los enlaces musicales en un iPhone real.
+1. Probar el widget y sus actualizaciones en un iPhone real (iOS puede retrasar las actualizaciones).
+2. Revisar los enlaces musicales pendientes y decidir una solución de audio compatible con iOS.
+3. Verificar los permisos de notificaciones, el guardado local y los enlaces profundos en un iPhone real.
