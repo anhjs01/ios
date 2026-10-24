@@ -71,6 +71,8 @@ struct ContentView: View {
         let hour = Calendar.current.component(.hour, from: .now)
         let slot: CardSlot = hour < 12 ? .morning : (hour < 18 ? .midday : .evening)
         if let card = cardStore.cards(for: today).first(where: { $0.slot == slot }) {
+            // A widget tap should open the relevant card directly, not stack duplicate destinations.
+            navigationPath = NavigationPath()
             navigationPath.append(card)
         }
     }
