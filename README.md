@@ -10,7 +10,7 @@ Aplicación personal para Aleja, desarrollada con SwiftUI y WidgetKit. Este repo
 - Edición y almacenamiento local de los mensajes.
 - Widget de inicio y widget rectangular de pantalla bloqueada, con fragmento de texto y enlace a la app.
 - Catálogo musical original importado como datos: 360 canciones, en cuatro categorías.
-- Calendario original importado como datos: 78 días consecutivos, del 16 de octubre de 2026 al 1 de enero de 2027.
+- Calendario anual de 365 días consecutivos, del 16 de octubre de 2026 al 15 de octubre de 2027.
 - La música solo se abre cuando se pulsa un control; no hay reproducción automática.
 - Recordatorios locales opcionales a las 06:00, 12:00 y 18:00, activados solo después de tocar el botón y conceder permiso.
 - Flujo de compilación automatizado para intentar compilar en un runner de macOS con Xcode.
@@ -24,7 +24,7 @@ Los datos del calendario y las canciones se adaptaron desde el proyecto web exis
 
 El catálogo tiene 360 canciones distribuidas en amor (46), filosófica (210), hot (58) y ambiente (46). Cinco entradas de Shyheim aún no tienen ID de YouTube en la fuente original; se conservan sin inventar enlaces. No se detectaron IDs de YouTube duplicados en la importación.
 
-El calendario fuente contiene 78 días, sin saltos de fecha, entre el 16 de octubre de 2026 y el 1 de enero de 2027. Las fechas fuera de ese intervalo muestran carticas editables de reserva hasta que se amplíe y revise el contenido.
+El calendario nativo contiene 365 días sin saltos. Los primeros 78 conservan el contenido fechado del proyecto web actual; los 287 restantes se completaron a partir del calendario anual de referencia. Las canciones añadidas se eligen del catálogo original según el tono de cada día y no se repiten entre esos 287 días. Los duplicados que ya existían en los primeros 78 días se conservan para no alterar ese contenido fechado.
 
 ## Música en iOS
 
