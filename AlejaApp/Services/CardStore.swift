@@ -1,11 +1,13 @@
 import Foundation
 import SwiftUI
+import WidgetKit
 
 @MainActor
 final class CardStore: ObservableObject {
     @Published private(set) var cards: [DailyCard] = []
 
     private let storageKey = "aleja.dailyCards.v1"
+    private let appGroup = "group.com.anhjs01.aleja"
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
 
@@ -50,5 +52,12 @@ final class CardStore: ObservableObject {
     private func save() {
         guard let data = try? encoder.encode(cards) else { return }
         UserDefaults.standard.set(data, forKey: storageKey)
+
+        if let sharedDefaults = UserDefaults(suiteName: appGroup) {
+            for card in cards {
+                sharedDefaults.set(card.message, forKey: "widget.message.\(card.id)")
+            }
+        }
+        WidgetCenter.shared.reloadAllTimelines()
     }
 }
