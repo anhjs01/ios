@@ -87,7 +87,10 @@ struct AlejaWidgetView: View {
         }
         .padding(4)
         .containerBackground(.background, for: .widget)
-         .widgetURL(URL(string: "aleja://card?date=\(entry.dayKey)&slot=\(entry.slot.rawValue)") ?? URL(string: "aleja://today"))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Cartica para Aleja. \(entry.slotTitle). \(entry.message)")
+        .accessibilityHint("Toca para abrir la cartica completa en la app.")
+        .widgetURL(URL(string: "aleja://card?date=\(entry.dayKey)&slot=\(entry.slot.rawValue)") ?? URL(string: "aleja://today"))
     }
 }
 
