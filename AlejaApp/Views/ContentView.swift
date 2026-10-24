@@ -238,7 +238,7 @@ struct ContentView: View {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "es_CO")
         formatter.dateFormat = "d 'de' MMMM 'de' yyyy"
-        return "Puedes explorar desde el \\(formatter.string(from: first)) hasta el \\(formatter.string(from: last))."
+        return "Puedes explorar desde el \(formatter.string(from: first)) hasta el \(formatter.string(from: last))."
     }
 
     private var datePicker: some View {
