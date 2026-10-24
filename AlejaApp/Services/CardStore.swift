@@ -22,9 +22,8 @@ final class CardStore: ObservableObject {
     func cards(for date: Date) -> [DailyCard] {
         let key = DailyCard.key(for: date)
         let savedBySlot = Dictionary(
-            uniqueKeysWithValues: cards
-                .filter { $0.dayKey == key }
-                .map { ($0.slot, $0) }
+            cards.filter { $0.dayKey == key }.map { ($0.slot, $0) },
+            uniquingKeysWith: { _, newer in newer }
         )
         let defaultsBySlot = Dictionary(
             uniqueKeysWithValues: makeCards(for: date).map { ($0.slot, $0) }
