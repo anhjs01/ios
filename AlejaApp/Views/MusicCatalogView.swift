@@ -42,7 +42,14 @@ struct MusicCatalogView: View {
             }
 
             Section("Canciones · \(filteredSongs.count)") {
-                ForEach(filteredSongs) { song in
+                if filteredSongs.isEmpty {
+                    ContentUnavailableView(
+                        "No encontramos canciones",
+                        systemImage: "music.note.list",
+                        description: Text("Prueba con otro título, artista o categoría.")
+                    )
+                } else {
+                    ForEach(filteredSongs) { song in
                     HStack(spacing: 12) {
                         Image(systemName: "music.note")
                             .font(.title3)
@@ -75,6 +82,7 @@ struct MusicCatalogView: View {
                         }
                     }
                     .padding(.vertical, 4)
+                    }
                 }
             }
         }
