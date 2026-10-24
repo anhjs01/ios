@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject private var cardStore: CardStore
+    @Environment(\\.scenePhase) private var scenePhase
     @State private var selectedDate = Calendar.current.startOfDay(for: .now)
     @State private var navigationPath = NavigationPath()
     @StateObject private var reminderManager = ReminderManager()
@@ -59,6 +60,11 @@ struct ContentView: View {
             }
             .onChange(of: selectedDate) { _, newDate in
                 cardStore.ensureCards(for: newDate)
+            }
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active {
+                    reminderManager.refreshStatus()
+                }
             }
         }
     }
