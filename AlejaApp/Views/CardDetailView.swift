@@ -35,6 +35,8 @@ struct CardDetailView: View {
                         .padding(8)
                         .background(.white, in: RoundedRectangle(cornerRadius: 18))
                         .scrollContentBackground(.hidden)
+                        .accessibilityLabel("Mensaje de la cartica")
+                        .accessibilityHint("Puedes editar el texto y luego tocar Guardar cartica.")
 
                     Button {
                         card.message = messageDraft
@@ -48,6 +50,7 @@ struct CardDetailView: View {
                             .foregroundStyle(.white)
                             .background(.blue, in: RoundedRectangle(cornerRadius: 16))
                     }
+                    .accessibilityHint("Guarda los cambios del mensaje en este iPhone y actualiza el widget compartido.")
 
                     musicSection
                 }
@@ -68,7 +71,7 @@ struct CardDetailView: View {
                 }
                 if let url = card.songURL {
                     Link(destination: url) {
-                        Label("Abrir canción", systemImage: "play.circle.fill")
+                        Label("Abrir canción en YouTube", systemImage: "play.circle.fill")
                             .font(.headline)
                             .frame(maxWidth: .infinity)
                             .padding()
