@@ -64,14 +64,36 @@ struct ContentView: View {
     }
 
     private func handleDeepLink(_ url: URL) {
-        guard url.scheme == "aleja", url.host == "today" else { return }
+        guard url.scheme == "aleja" else { return }
+
         let today = Calendar.current.startOfDay(for: .now)
-        selectedDate = today
-        cardStore.ensureCards(for: today)
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        let queryItems = components?.queryItems ?? []
+        let requestedDayKey = queryItems.first(where: { $0.name == "date" })?.value
+        let requestedSlotValue = queryItems.first(where: { $0.name == "slot" })?.value.flatMap(Int.init)
+        let requestedSlot = requestedSlotValue.flatMap(CardSlot.init(rawValue:))
+
+        let targetDate: Date
+        if url.host == "card", let dayKey = requestedDayKey {
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.calendar = Calendar(identifier: .gregorian)
+            formatter.timeZone = Calendar.current.timeZone
+            formatter.dateFormat = "yyyy-MM-dd"
+            targetDate = formatter.date(from: dayKey).map(Calendar.current.startOfDay(for:)) ?? today
+        } else if url.host == "today" {
+            targetDate = today
+        } else {
+            return
+        }
+
+        selectedDate = targetDate
+        cardStore.ensureCards(for: targetDate)
         let hour = Calendar.current.component(.hour, from: .now)
-        let slot: CardSlot = hour < 12 ? .morning : (hour < 18 ? .midday : .evening)
-        if let card = cardStore.cards(for: today).first(where: { $0.slot == slot }) {
-            // A widget tap should open the relevant card directly, not stack duplicate destinations.
+        let fallbackSlot: CardSlot = hour < 12 ? .morning : (hour < 18 ? .midday : .evening)
+        let slot = requestedSlot ?? fallbackSlot
+        if let card = cardStore.cards(for: targetDate).first(where: { $0.slot == slot }) {
+            // Reset the path so repeated widget taps do not stack duplicate destinations.
             navigationPath = NavigationPath()
             navigationPath.append(card)
         }
