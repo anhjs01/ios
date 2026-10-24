@@ -9,6 +9,16 @@ final class ReminderManager: ObservableObject {
 
     private let center = UNUserNotificationCenter.current()
 
+    init() {
+        center.getPendingNotificationRequests { [weak self] requests in
+            let ids = Set(requests.map(\.identifier))
+            let enabled = ["aleja.morning", "aleja.midday", "aleja.evening"].allSatisfy(ids.contains)
+            Task { @MainActor [weak self] in
+                self?.isEnabled = enabled
+            }
+        }
+    }
+
     func enableDailyReminders() async {
         do {
             let granted = try await center.requestAuthorization(options: [.alert, .sound, .badge])
