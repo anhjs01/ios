@@ -1,14 +1,10 @@
 import SwiftUI
-import AVFoundation
 
 struct CardDetailView: View {
     @EnvironmentObject private var cardStore: CardStore
     @Environment(\.dismiss) private var dismiss
     @State private var card: DailyCard
     @State private var messageDraft: String
-    @State private var player: AVPlayer?
-    @State private var isPlaying = false
-    @State private var playbackError: String?
 
     init(card: DailyCard) {
         _card = State(initialValue: card)
@@ -59,68 +55,42 @@ struct CardDetailView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .onDisappear { stopPlayback() }
     }
 
     private var musicSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Label("Música", systemImage: "music.note")
+            Label("Canción del día", systemImage: "music.note")
                 .font(.headline)
             if let title = card.songTitle {
                 Text(title).font(.subheadline.weight(.semibold))
                 if let artist = card.songArtist {
                     Text(artist).font(.caption).foregroundStyle(.secondary)
                 }
-                Button {
-                    togglePlayback()
-                } label: {
-                    Label(isPlaying ? "Pausar" : "Reproducir", systemImage: isPlaying ? "pause.fill" : "play.fill")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.white, in: RoundedRectangle(cornerRadius: 14))
-                }
-                .disabled(card.songURL == nil)
-                if let playbackError {
-                    Text(playbackError).font(.caption).foregroundStyle(.red)
+                if let url = card.songURL {
+                    Link(destination: url) {
+                        Label("Abrir canción", systemImage: "play.circle.fill")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .foregroundStyle(.white)
+                            .background(Color.blue, in: RoundedRectangle(cornerRadius: 14))
+                    }
+                    Text("La canción solo se abre cuando tocas el botón. La reproducción y el audio en segundo plano dependen de YouTube y de la app disponible en el iPhone.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                } else {
+                    Text("Todavía no hay un enlace disponible para esta canción.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
             } else {
                 Text("Todavía no hay una canción asignada a esta cartica.")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                Text("La música nunca se inicia automáticamente.")
-                    .font(.caption)
                     .foregroundStyle(.secondary)
             }
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.white.opacity(0.8), in: RoundedRectangle(cornerRadius: 20))
-    }
-
-    private func togglePlayback() {
-        guard let url = card.songURL else { return }
-        if isPlaying {
-            player?.pause()
-            isPlaying = false
-            return
-        }
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
-            if player == nil {
-                player = AVPlayer(url: url)
-            }
-            player?.play()
-            isPlaying = true
-        } catch {
-            playbackError = "No se pudo iniciar el audio. Inténtalo de nuevo."
-            isPlaying = false
-        }
-    }
-
-    private func stopPlayback() {
-        player?.pause()
-        player = nil
-        isPlaying = false
     }
 }
