@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Validate bundled content
+        run: python3 scripts/validate_content.py
       - name: Show Xcode version
         run: xcodebuild -version
       - name: Build iOS Simulator target
