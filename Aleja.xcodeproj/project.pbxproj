@@ -35,7 +35,6 @@
 		A20000000000000000000008 /* AlejaWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AlejaWidget.entitlements; sourceTree = "<group>"; };
 		A20000000000000000000009 /* Aleja.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aleja.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20000000000000000000010 /* AlejaWidget.appex */ = {isa = PBXFileReference; explicitFileType = wrapper.app-extension; includeInIndex = 0; path = AlejaWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		A20000000000000000000011 /* Aleja.xcscheme */ = {isa = PBXFileReference; lastKnownFileType = text; path = Aleja.xcscheme; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
