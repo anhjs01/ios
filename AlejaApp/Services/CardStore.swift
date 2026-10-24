@@ -124,11 +124,13 @@ final class CardStore: ObservableObject {
         UserDefaults.standard.set(data, forKey: storageKey)
 
         syncWidgetMessages()
-        WidgetCenter.shared.reloadAllTimelines()
     }
 
     private func syncWidgetMessages() {
-        guard let sharedDefaults = UserDefaults(suiteName: appGroup) else { return }
+        guard let sharedDefaults = UserDefaults(suiteName: appGroup) else {
+            WidgetCenter.shared.reloadAllTimelines()
+            return
+        }
 
         // Seed all bundled dates so the widget can show tomorrow's message even
         // if the app hasn't been opened that day. Saved edits take precedence.
@@ -140,5 +142,7 @@ final class CardStore: ObservableObject {
         for card in cards {
             sharedDefaults.set(card.message, forKey: "widget.message.\(card.id)")
         }
+        // Refresh after both initial seeding and edits so the widget sees shared defaults promptly.
+        WidgetCenter.shared.reloadAllTimelines()
     }
 }
